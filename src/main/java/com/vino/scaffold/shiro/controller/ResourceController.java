@@ -37,7 +37,7 @@ public class ResourceController extends BaseController{
 	}
 	@RequiresPermissions("resource:menu")
 	@RequestMapping(value="/all",method=RequestMethod.GET)
-	public String getAllResources(Model model,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber){	
+	public String getAllResources(Model model,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber){
 		Page<Resource> resourcePage=resourceService.findAll(buildPageRequest(pageNumber));
 		model.addAttribute("resources", resourcePage.getContent());
 		model.addAttribute("page", resourcePage);
@@ -46,19 +46,19 @@ public class ResourceController extends BaseController{
 	@RequiresPermissions("resource:menu")
 	@ResponseBody
 	@RequestMapping(value="/json/all",method=RequestMethod.GET)
-	public List<Tree> getAllResources(){	
+	public List<Tree> getAllResources(){
 		List<Resource> resources=resourceService.findAll();
-		
+
 		return TreeUtils.fomatResourceToTree(resources);
 	}
 	@RequiresPermissions("resource:view")
 	@RequestMapping(value="/search",method=RequestMethod.GET)
 	public String getRolesByCondition(Model model,Resource resource,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber,ServletRequest request){
 		Map<String,Object> searchParams=Servlets.getParametersStartingWith(request, "search_");
-		log.info("ËÑË÷²ÎÊı="+searchParams.toString());				
+		log.info("æœç´¢å‚æ•°="+searchParams.toString());
 		Page<Resource> resourcePage=resourceService.findResourceByCondition(searchParams, buildPageRequest(pageNumber));
 		model.addAttribute("resources",resourcePage.getContent());
-		model.addAttribute("page", resourcePage);	
+		model.addAttribute("page", resourcePage);
 		model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
 		model.addAttribute("searchParamsMap", searchParams);
 		return "resource/list";
@@ -70,7 +70,7 @@ public class ResourceController extends BaseController{
 		User curUser=(User) session.getAttribute(Constants.CURRENT_USER);
 		try {
 			resourceService.saveWithCheckDuplicate(resource,curUser);
-			roleService.connectRoleAndResource(1l,resourceService.findByName(resource.getName()).getId() );//ĞÂ½¨Ò»¸ö×ÊÔ´¾Í°ó¶¨¸ø³¬¼¶½ÇÉ«admin£¬Ê¹µÃadminÓµÓĞËùÓĞÈ¨ÏŞ
+			roleService.connectRoleAndResource(1l,resourceService.findByName(resource.getName()).getId() );//æ–°å»ºä¸€ä¸ªèµ„æºå°±ç»‘å®šç»™è¶…çº§è§’è‰²adminï¼Œä½¿å¾—adminæ‹¥æœ‰æ‰€æœ‰æƒé™
 		} catch (ResourceDuplicateException e) {
 			model.addAttribute("resourceDuplicate", "true");
 			e.printStackTrace();
@@ -78,42 +78,42 @@ public class ResourceController extends BaseController{
 		Page<Resource> resourcePage=resourceService.findAll(buildPageRequest(1));
 		model.addAttribute("resources", resourcePage.getContent());
 		model.addAttribute("page", resourcePage);
-		return "resource/list";	
+		return "resource/list";
 	}
 	@RequiresPermissions("resource:delete")
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
 	public  String deleteRoles(Model model,@RequestParam("deleteIds[]")Long[] deleteIds){
-		
+
 		resourceService.delete(deleteIds);
-		
+
 		Page<Resource> resourcePage=resourceService.findAll(buildPageRequest(1));
 		model.addAttribute("resources", resourcePage.getContent());
 		model.addAttribute("page", resourcePage);
 		return "resource/list";
-		
+
 	}
 	@RequiresPermissions("resource:update")
-	@RequestMapping(value="/update",method=RequestMethod.POST)	
+	@RequestMapping(value="/update",method=RequestMethod.POST)
 	public String updateRole(Model model,Resource resource){
 		resourceService.update(resource);
 		Page<Resource> resourcePage=resourceService.findAll(buildPageRequest(1));
 		model.addAttribute("resources", resourcePage.getContent());
 		model.addAttribute("page", resourcePage);
 		return "resource/list";
-		
+
 	}
 	@RequiresPermissions("resource:update")
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	public String prepareUpdateRole(Model model,@PathVariable("id") Long id){
 		model.addAttribute("resource", resourceService.findOne(id));
 		return "resource/edit";
-		
+
 	}
 	@RequiresPermissions("resource:view")
 	@RequestMapping(value="/detail/{id}",method=RequestMethod.GET)
 	public String findResource(Model model,@PathVariable("id") Long id){
 		model.addAttribute("resource", resourceService.findOne(id));
 		return "resource/detail";
-		
+
 	}
 }

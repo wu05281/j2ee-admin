@@ -15,7 +15,7 @@ public interface RoleService extends  BaseService<Role, Long> {
 
 
 	/**
-	 * 建立角色与资源之间的联系
+	 * 寤虹珛瑙掕壊涓庤祫婧愪箣闂寸殑鑱旂郴
 	 * @param roleId
 	 * @param resourceIds
 	 */
@@ -25,5 +25,5 @@ public interface RoleService extends  BaseService<Role, Long> {
 	public void update(Role role);
 	public void saveWithCheckDuplicate(Role role,User user) throws RoleDuplicateException;
 	public Page<Role> findRoleByCondition(Map<String, Object> searchParams,
-			Pageable pageable);
+										  Pageable pageable);
 }

@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vino.scaffold.shiro.service.UserService;
 /**
- * isAccessAllowed£º¼´ÊÇ·ñÔÊĞí·ÃÎÊ£¬·µ»Øtrue±íÊ¾ÔÊĞí£»
- * onAccessDenied£º±íÊ¾·ÃÎÊ¾Ü¾øÊ±ÊÇ·ñ×Ô¼º´¦Àí£¬Èç¹û·µ»Øtrue±íÊ¾×Ô¼º²»´¦ÀíÇÒ¼ÌĞøÀ¹½ØÆ÷Á´Ö´ĞĞ£¬·µ»Øfalse±íÊ¾×Ô¼ºÒÑ¾­´¦ÀíÁË£¨±ÈÈçÖØ¶¨Ïòµ½ÁíÒ»¸öÒ³Ãæ£©¡£
+ * isAccessAllowedï¼šå³æ˜¯å¦å…è®¸è®¿é—®ï¼Œè¿”å›trueè¡¨ç¤ºå…è®¸ï¼›
+ * onAccessDeniedï¼šè¡¨ç¤ºè®¿é—®æ‹’ç»æ—¶æ˜¯å¦è‡ªå·±å¤„ç†ï¼Œå¦‚æœè¿”å›trueè¡¨ç¤ºè‡ªå·±ä¸å¤„ç†ä¸”ç»§ç»­æ‹¦æˆªå™¨é“¾æ‰§è¡Œï¼Œè¿”å›falseè¡¨ç¤ºè‡ªå·±å·²ç»å¤„ç†äº†ï¼ˆæ¯”å¦‚é‡å®šå‘åˆ°å¦ä¸€ä¸ªé¡µé¢ï¼‰ã€‚
  * @author vino007
  *
  */
@@ -22,28 +22,28 @@ public class MonitorAccessControlFilter extends AccessControlFilter {
 	private UserService userService;
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request,
-			ServletResponse response, Object arg2) throws Exception {
-		
+									  ServletResponse response, Object arg2) throws Exception {
+
 		Subject subject=getSubject(request, response);
 		String username=(String) subject.getPrincipal();
-		if(username == null)//Î´µÇÂ¼
+		if(username == null)//æœªç™»å½•
 			return false;
-		Set<String> permissions=userService.findAllPermissionsByUsername(username);	
+		Set<String> permissions=userService.findAllPermissionsByUsername(username);
 		for(String permission:permissions){
 			if("monitor:view".equals(permission)){
 				return true;
 			}
-		}	
+		}
 		return false;
 	}
 
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response)
 			throws Exception {
-		 WebUtils.issueRedirect(request, response, "/static/404.html");//µ¼Ïò404 not found,µ¼ÏòloginÓÉÓÚÓÃ»§ÒÑµÇÂ¼£¬»áµ¼ÖÂloginÎŞĞ§
+		WebUtils.issueRedirect(request, response, "/static/404.html");//å¯¼å‘404 not found,å¯¼å‘loginç”±äºç”¨æˆ·å·²ç™»å½•ï¼Œä¼šå¯¼è‡´loginæ— æ•ˆ
 		return false;
 	}
-	  
-	
-		
+
+
+
 }

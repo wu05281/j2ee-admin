@@ -64,7 +64,7 @@ public class RoleServiceImpl extends AbstractBaseServiceImpl<Role, Long> impleme
 		this.resourceRepository = resourceRepository;
 	}
 
-	
+
 	@Override
 	public void update(Role role) {
 		Role role2=roleRepository.findOne(role.getId());
@@ -79,7 +79,7 @@ public class RoleServiceImpl extends AbstractBaseServiceImpl<Role, Long> impleme
 	@Override
 	public void connectRoleAndResource(Long roleId, Long... resourceIds) {
 		Role role=findOne(roleId);
-		
+
 		Set<Resource> resources=role.getResources();
 		for(Long resId:resourceIds){
 			resources.add(resourceRepository.findOne(resId));
@@ -90,10 +90,10 @@ public class RoleServiceImpl extends AbstractBaseServiceImpl<Role, Long> impleme
 	@Override
 	public void disconnnectRoleAndResource(Long roledId, Long... resourceIds) {
 		for(Long resourceId : resourceIds)
-		roleRepository.findOne(roledId).getResources().remove(resourceRepository.findOne(resourceId));
+			roleRepository.findOne(roledId).getResources().remove(resourceRepository.findOne(resourceId));
 	}
 
-	
+
 	@Override
 	public void clearAllRoleAndResourceConnection(Long roleId) {
 		Role role=roleRepository.findOne(roleId);
@@ -108,32 +108,32 @@ public class RoleServiceImpl extends AbstractBaseServiceImpl<Role, Long> impleme
 			role.setCreateTime(new Date());
 			role.setCreatorName(user.getUsername());
 			roleRepository.save(role);
-			
+
 		}
 	}
-	 /**
-     * ´´½¨¶¯Ì¬²éÑ¯Ìõ¼ş×éºÏ.
-     */
-    private Specification<Role> buildSpecification(final Map<String,Object> searchParams) {
-    	
-		
-        Specification<Role> spec = new Specification<Role>(){           
+	/**
+	 * åˆ›å»ºåŠ¨æ€æŸ¥è¯¢æ¡ä»¶ç»„åˆ.
+	 */
+	private Specification<Role> buildSpecification(final Map<String,Object> searchParams) {
+
+
+		Specification<Role> spec = new Specification<Role>(){
 			@Override
 			public Predicate toPredicate(Root<Role> root,
-				CriteriaQuery<?> cq, CriteriaBuilder cb) {
+										 CriteriaQuery<?> cq, CriteriaBuilder cb) {
 				Predicate allCondition = null;
-				String name=(String) searchParams.get("name");			
+				String name=(String) searchParams.get("name");
 				String createTimeRange=(String) searchParams.get("createTimeRange");
 				if(name!=null&&!"".equals(name)){
 					Predicate condition=cb.like(root.get("name").as(String.class),"%"+searchParams.get("name")+"%");
 					if(null==allCondition)
-						allCondition=cb.and(condition);//´Ë´¦³õÊ¼»¯allCondition,Èô°´cb.and(allCondition,condition)ÕâÖÖĞ´·¨£¬»áµ¼ÖÂ¿ÕÖ¸Õë
+						allCondition=cb.and(condition);//æ­¤å¤„åˆå§‹åŒ–allCondition,è‹¥æŒ‰cb.and(allCondition,condition)è¿™ç§å†™æ³•ï¼Œä¼šå¯¼è‡´ç©ºæŒ‡é’ˆ
 					else
 						allCondition=cb.and(allCondition,condition);
-					}
-				
-											
-				if(createTimeRange!=null&&!"".equals(createTimeRange)){			
+				}
+
+
+				if(createTimeRange!=null&&!"".equals(createTimeRange)){
 					String createTimeStartStr=createTimeRange.split(" - ")[0]+":00:00:00";
 					String createTimeEndStr=createTimeRange.split(" - ")[1]+":23:59:59";
 					SimpleDateFormat format=new SimpleDateFormat("MM/dd/yyyy:hh:mm:ss");
@@ -143,27 +143,27 @@ public class RoleServiceImpl extends AbstractBaseServiceImpl<Role, Long> impleme
 						Date createTimeEnd=format.parse(createTimeEndStr);
 						Predicate condition=cb.between(root.get("createTime").as(Date.class),createTimeStart, createTimeEnd);
 						if(null==allCondition)
-							allCondition=cb.and(condition);//´Ë´¦³õÊ¼»¯allCondition,Èô°´cb.and(allCondition,condition)ÕâÖÖĞ´·¨£¬»áµ¼ÖÂ¿ÕÖ¸Õë
+							allCondition=cb.and(condition);//æ­¤å¤„åˆå§‹åŒ–allCondition,è‹¥æŒ‰cb.and(allCondition,condition)è¿™ç§å†™æ³•ï¼Œä¼šå¯¼è‡´ç©ºæŒ‡é’ˆ
 						else
 							allCondition=cb.and(allCondition,condition);
-						
+
 					} catch (ParseException e) {
 						e.printStackTrace();
 						Logger log =LoggerFactory.getLogger(this.getClass());
-						log.error("createTime ×ª»»Ê±¼ä³ö´í");
+						log.error("createTime è½¬æ¢æ—¶é—´å‡ºé”™");
 					}
-					
-				
-				}					
+
+
+				}
 				return allCondition;
 			}
-        	
-        };
-        return spec;
-    }
+
+		};
+		return spec;
+	}
 	@Override
 	public Page<Role> findRoleByCondition(Map<String, Object> searchParams,
-			Pageable pageable) {
+										  Pageable pageable) {
 		return roleRepository.findAll(buildSpecification(searchParams), pageable);
 	}
 
@@ -172,6 +172,6 @@ public class RoleServiceImpl extends AbstractBaseServiceImpl<Role, Long> impleme
 		roleRepository.deleteAssociateById(ids);
 		super.delete(ids);
 	}
-	
+
 
 }

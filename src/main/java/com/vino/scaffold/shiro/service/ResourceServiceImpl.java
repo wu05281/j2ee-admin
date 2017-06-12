@@ -1,7 +1,6 @@
 package com.vino.scaffold.shiro.service;
 
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,127 +32,127 @@ import com.vino.scaffold.shiro.repository.ResourceRepository;
 @Service("resourceService")
 @Transactional
 public class ResourceServiceImpl extends AbstractBaseServiceImpl<Resource, Long>  implements ResourceService {
-	@Autowired
-	@Qualifier("resourceRepository")
-	private ResourceRepository resourceRepository;
+    @Autowired
+    @Qualifier("resourceRepository")
+    private ResourceRepository resourceRepository;
 
-	public ResourceRepository getResourceRepository() {
-		return resourceRepository;
-	}
+    public ResourceRepository getResourceRepository() {
+        return resourceRepository;
+    }
 
-	public void setResourceRepository(ResourceRepository resourceRepository) {
-		this.resourceRepository = resourceRepository;
-	}
-	
-	@Override
-	public void update(Resource resource) {
-		Resource resource2=resourceRepository.findOne(resource.getId());
-		if(resource.getType()!=null&&!resource.getType().equals("")){
-			resource2.setType(resource.getType());
-		}
-		if(resource.getParentId()!=null){
-			resource2.setParentId(resource.getParentId());
-		}
-		if(resource.getUrl()!=null){//‘ –ÌŒ™ø’◊÷∑˚¥Æ
-			resource2.setUrl(resource.getUrl());
-		}
-		if(resource.getPriority()!=null){
-			resource2.setPriority(resource.getPriority());
-		}
-		if(resource.getAvailable()!=null){
-			resource2.setAvailable(resource.getAvailable());
-		}
-		if(resource.getPermission()!=null){
-			resource2.setPermission(resource.getPermission());
-		}
-	}
+    public void setResourceRepository(ResourceRepository resourceRepository) {
+        this.resourceRepository = resourceRepository;
+    }
 
-	@Override
-	public void saveWithCheckDuplicate(Resource resource,User user)
-			throws ResourceDuplicateException {
-		if(resourceRepository.findByName(resource.getName())!=null)
-			throw new ResourceDuplicateException();
-		else{
-			resource.setCreateTime(new Date());
-			//¥¥Ω®»Àid
-			resource.setCreatorName(user.getUsername());
-			resourceRepository.save(resource);
-			
-			
-		}
-		
-	}
-	 /**
-     * ¥¥Ω®∂ØÃ¨≤È—ØÃıº˛◊È∫œ.
+    @Override
+    public void update(Resource resource) {
+        Resource resource2=resourceRepository.findOne(resource.getId());
+        if(resource.getType()!=null&&!resource.getType().equals("")){
+            resource2.setType(resource.getType());
+        }
+        if(resource.getParentId()!=null){
+            resource2.setParentId(resource.getParentId());
+        }
+        if(resource.getUrl()!=null){//ÂÖÅËÆ∏‰∏∫Á©∫Â≠óÁ¨¶‰∏≤
+            resource2.setUrl(resource.getUrl());
+        }
+        if(resource.getPriority()!=null){
+            resource2.setPriority(resource.getPriority());
+        }
+        if(resource.getAvailable()!=null){
+            resource2.setAvailable(resource.getAvailable());
+        }
+        if(resource.getPermission()!=null){
+            resource2.setPermission(resource.getPermission());
+        }
+    }
+
+    @Override
+    public void saveWithCheckDuplicate(Resource resource,User user)
+            throws ResourceDuplicateException {
+        if(resourceRepository.findByName(resource.getName())!=null)
+            throw new ResourceDuplicateException();
+        else{
+            resource.setCreateTime(new Date());
+            //ÂàõÂª∫‰∫∫id
+            resource.setCreatorName(user.getUsername());
+            resourceRepository.save(resource);
+
+
+        }
+
+    }
+    /**
+     * ÂàõÂª∫Âä®ÊÄÅÊü•ËØ¢Êù°‰ª∂ÁªÑÂêà.
      */
     private Specification<Resource> buildSpecification(final Map<String,Object> searchParams) {
-    	
-		
-        Specification<Resource> spec = new Specification<Resource>(){           
-			@Override
-			public Predicate toPredicate(Root<Resource> root,
-				CriteriaQuery<?> cq, CriteriaBuilder cb) {
-				Predicate allCondition = null;
-				String name=(String) searchParams.get("name");			
-				String createTimeRange=(String) searchParams.get("createTimeRange");
-				if(name!=null&&!"".equals(name)){
-					Predicate condition=cb.like(root.get("name").as(String.class),"%"+searchParams.get("name")+"%");
-					if(null==allCondition)
-						allCondition=cb.and(condition);//¥À¥¶≥ı ºªØallCondition,»Ù∞¥cb.and(allCondition,condition)’‚÷÷–¥∑®£¨ª·µº÷¬ø’÷∏’Î
-					else
-						allCondition=cb.and(allCondition,condition);
-					}
-				
-											
-				if(createTimeRange!=null&&!"".equals(createTimeRange)){			
-					String createTimeStartStr=createTimeRange.split(" - ")[0]+":00:00:00";
-					String createTimeEndStr=createTimeRange.split(" - ")[1]+":23:59:59";
-					SimpleDateFormat format=new SimpleDateFormat("MM/dd/yyyy:hh:mm:ss");
-					System.out.println(createTimeStartStr);
-					try {
-						Date createTimeStart = format.parse(createTimeStartStr);
-						Date createTimeEnd=format.parse(createTimeEndStr);
-						Predicate condition=cb.between(root.get("createTime").as(Date.class),createTimeStart, createTimeEnd);
-						if(null==allCondition)
-							allCondition=cb.and(condition);//¥À¥¶≥ı ºªØallCondition,»Ù∞¥cb.and(allCondition,condition)’‚÷÷–¥∑®£¨ª·µº÷¬ø’÷∏’Î
-						else
-							allCondition=cb.and(allCondition,condition);
-						
-					} catch (ParseException e) {
-						e.printStackTrace();
-						Logger log =LoggerFactory.getLogger(this.getClass());
-						log.error("createTime ◊™ªª ±º‰≥ˆ¥Ì");
-					}
-					
-				
-				}					
-				return allCondition;
-			}
-        	
+
+
+        Specification<Resource> spec = new Specification<Resource>(){
+            @Override
+            public Predicate toPredicate(Root<Resource> root,
+                                         CriteriaQuery<?> cq, CriteriaBuilder cb) {
+                Predicate allCondition = null;
+                String name=(String) searchParams.get("name");
+                String createTimeRange=(String) searchParams.get("createTimeRange");
+                if(name!=null&&!"".equals(name)){
+                    Predicate condition=cb.like(root.get("name").as(String.class),"%"+searchParams.get("name")+"%");
+                    if(null==allCondition)
+                        allCondition=cb.and(condition);//Ê≠§Â§ÑÂàùÂßãÂåñallCondition,Ëã•Êåâcb.and(allCondition,condition)ËøôÁßçÂÜôÊ≥ïÔºå‰ºöÂØºËá¥Á©∫ÊåáÈíà
+                    else
+                        allCondition=cb.and(allCondition,condition);
+                }
+
+
+                if(createTimeRange!=null&&!"".equals(createTimeRange)){
+                    String createTimeStartStr=createTimeRange.split(" - ")[0]+":00:00:00";
+                    String createTimeEndStr=createTimeRange.split(" - ")[1]+":23:59:59";
+                    SimpleDateFormat format=new SimpleDateFormat("MM/dd/yyyy:hh:mm:ss");
+                    System.out.println(createTimeStartStr);
+                    try {
+                        Date createTimeStart = format.parse(createTimeStartStr);
+                        Date createTimeEnd=format.parse(createTimeEndStr);
+                        Predicate condition=cb.between(root.get("createTime").as(Date.class),createTimeStart, createTimeEnd);
+                        if(null==allCondition)
+                            allCondition=cb.and(condition);//Ê≠§Â§ÑÂàùÂßãÂåñallCondition,Ëã•Êåâcb.and(allCondition,condition)ËøôÁßçÂÜôÊ≥ïÔºå‰ºöÂØºËá¥Á©∫ÊåáÈíà
+                        else
+                            allCondition=cb.and(allCondition,condition);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        Logger log =LoggerFactory.getLogger(this.getClass());
+                        log.error("createTime ËΩ¨Êç¢Êó∂Èó¥Âá∫Èîô");
+                    }
+
+
+                }
+                return allCondition;
+            }
+
         };
         return spec;
     }
-	@Override
-	public Page<Resource> findResourceByCondition(
-			Map<String, Object> searchParams, Pageable pageable) {
-		return resourceRepository.findAll(buildSpecification(searchParams), pageable);
-	}
+    @Override
+    public Page<Resource> findResourceByCondition(
+            Map<String, Object> searchParams, Pageable pageable) {
+        return resourceRepository.findAll(buildSpecification(searchParams), pageable);
+    }
 
-	@Override
-	public Resource findByName(String name) {
-		
-		return resourceRepository.findByName(name);
-	}
+    @Override
+    public Resource findByName(String name) {
 
-	@Override
-	public void delete(Long... ids) {
-		// TODO Auto-generated method stub
-		resourceRepository.deleteAssociateById(ids);
-		super.delete(ids);
-	}
+        return resourceRepository.findByName(name);
+    }
+
+    @Override
+    public void delete(Long... ids) {
+        // TODO Auto-generated method stub
+        resourceRepository.deleteAssociateById(ids);
+        super.delete(ids);
+    }
 
 
 
-	
+
 
 }

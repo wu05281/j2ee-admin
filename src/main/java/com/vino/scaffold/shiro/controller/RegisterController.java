@@ -24,7 +24,7 @@ public class RegisterController extends BaseController{
 		try {
 			userService.saveWithCheckDuplicate(user);
 		} catch (UserDuplicateException e) {
-			model.addAttribute("isUserDuplicate", "ÓÃ‘ôÃûÒÑ±»×ÓÃ");
+			model.addAttribute("isUserDuplicate", "ç”¨æˆ·å·²å­˜åœ¨");
 			return "register";
 			
 		}

@@ -25,15 +25,15 @@ import com.vino.scaffold.shiro.exception.UserDuplicateException;
 public interface UserService extends  BaseService<User, Long>{
 	//public List<Resource>findAllResources();
 	public User findByUsername(String username);
-//	public List<User> findUserByContidionAndPage(User user,Pageable pageable);
+	//	public List<User> findUserByContidionAndPage(User user,Pageable pageable);
 	public Page<User> findUserByCondition(Map<String,Object> searchParams,Pageable pageable);
 	public Set<String> findAllRoleNamesByUsername(String username);
 	public Set<String> findAllPermissionsByUsername(String username);
 	void changePassword(Long userId, String newPassword);
 	public void clearAllUserAndRoleConnection(Long userId);
-	//关联User与Role,由于使用的是Set集合，即使多次插入相同的，数据库中也不会有重复的
+	//鍏宠仈User涓嶳ole,鐢变簬浣跨敤鐨勬槸Set闆嗗悎锛屽嵆浣垮娆℃彃鍏ョ浉鍚岀殑锛屾暟鎹簱涓篃涓嶄細鏈夐噸澶嶇殑
 	public void connectUserAndRole(Long userId,Long ...roleIds);
-	//取消关联
+	//鍙栨秷鍏宠仈
 	public void disconnectUserAndRole(Long userId,Long... roleIds);
 	public void update(User user);
 	public void saveWithCheckDuplicate(User user) throws UserDuplicateException;

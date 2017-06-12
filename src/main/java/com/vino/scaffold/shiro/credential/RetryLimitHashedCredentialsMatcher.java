@@ -14,33 +14,33 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {
 
-    private Cache<String, AtomicInteger> passwordRetryCache;//»º´æÊ¹ÓÃµÄÊÇEhcache
+    private Cache<String, AtomicInteger> passwordRetryCache;//ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ãµï¿½ï¿½ï¿½Ehcache
     
     public RetryLimitHashedCredentialsMatcher(CacheManager cacheManager) {
-        passwordRetryCache = cacheManager.getCache("passwordRetryCache");//ÔÚEhcacheÖĞÓĞ¶¨Òå
+        passwordRetryCache = cacheManager.getCache("passwordRetryCache");//ï¿½ï¿½Ehcacheï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½ï¿½
        
     }
 
     @Override
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
         String username = (String)token.getPrincipal();
-       
+
         //retry count + 1
         AtomicInteger retryCount = passwordRetryCache.get(username);
         if(retryCount == null) {
             retryCount = new AtomicInteger(0);
-            passwordRetryCache.put(username, retryCount);//³õÊ¼»¯»º´æ
-            
-        }  
-        if(retryCount.incrementAndGet() > Constants.PASSWORD_RETRY_MAX) {              
-         
-            throw new ExcessiveAttemptsException();//³¬¹ıPASSWORD_RETRY_MAX´ÎÅ×³öÒì³££¬Ëø¶¨1Ğ¡Ê±£¬Ê±¼äÔÚtimeToIdleSecondsÖĞÉèÖÃ
+            passwordRetryCache.put(username, retryCount);//åˆå§‹åŒ–ç¼“å­˜
+
+        }
+        if(retryCount.incrementAndGet() > Constants.PASSWORD_RETRY_MAX) {
+
+            throw new ExcessiveAttemptsException();//è¶…è¿‡PASSWORD_RETRY_MAXæ¬¡æŠ›å‡ºå¼‚å¸¸ï¼Œé”å®š1å°æ—¶ï¼Œæ—¶é—´åœ¨timeToIdleSecondsä¸­è®¾ç½®
         }
         boolean matches = super.doCredentialsMatch(token, info);
-        if(matches) { //Èç¹ûÃÜÂë³É¹¦Ôò½«retryCount»º´æÇå¿Õ
+        if(matches) { //å¦‚æœå¯†ç æˆåŠŸåˆ™å°†retryCountç¼“å­˜æ¸…ç©º
             //clear retry count
             passwordRetryCache.remove(username);
-        }     
+        }
         return matches;
     }
 }

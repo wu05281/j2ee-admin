@@ -33,29 +33,29 @@ import com.vino.scaffold.utils.TreeUtils;
 @Controller
 @RequestMapping("/role")
 public class RoleController extends BaseController{
-	
+
 	@Autowired
 	private RoleService roleService;
 	@Autowired
 	private ResourceService resourceService;
 	@RequiresPermissions("role:menu")
 	@RequestMapping(value="/all",method=RequestMethod.GET)
-	public String getAllRoles(Model model,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber){	
+	public String getAllRoles(Model model,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber){
 		Page<Role> rolePage=roleService.findAll(buildPageRequest(pageNumber));
 		model.addAttribute("roles", rolePage.getContent());
 		model.addAttribute("page", rolePage);
 		return "role/list";
 	}
-	
-	
+
+
 	@RequiresPermissions("role:view")
 	@RequestMapping(value="/search",method=RequestMethod.GET)
 	public String getRolesByCondition(Model model,Role role,@RequestParam(value="pageNumber",defaultValue="1")int pageNumber,ServletRequest request){
 		Map<String,Object> searchParams=Servlets.getParametersStartingWith(request, "search_");
-		log.info("ËÑË÷²ÎÊý="+searchParams.toString());				
+		log.info("Ã‹Ã‘Ã‹Ã·Â²ÃŽÃŠÃ½="+searchParams.toString());
 		Page<Role> rolePage=roleService.findRoleByCondition(searchParams, buildPageRequest(pageNumber));
 		model.addAttribute("roles",rolePage.getContent());
-		model.addAttribute("page", rolePage);	
+		model.addAttribute("page", rolePage);
 		model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
 		model.addAttribute("searchParamsMap", searchParams);
 		return "role/list";
@@ -71,7 +71,7 @@ public class RoleController extends BaseController{
 		User curUser=(User) session.getAttribute(Constants.CURRENT_USER);
 		try {
 			roleService.saveWithCheckDuplicate(role,curUser);
-			
+
 		} catch (RoleDuplicateException e) {
 			model.addAttribute("roleDuplicate", "true");
 			e.printStackTrace();
@@ -79,7 +79,7 @@ public class RoleController extends BaseController{
 		Page<Role> rolePage=roleService.findAll(buildPageRequest(1));
 		model.addAttribute("roles", rolePage.getContent());
 		model.addAttribute("page", rolePage);
-		return "role/list";	
+		return "role/list";
 	}
 	@RequiresPermissions("role:delete")
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
@@ -89,48 +89,48 @@ public class RoleController extends BaseController{
 		model.addAttribute("roles", rolePage.getContent());
 		model.addAttribute("page", rolePage);
 		return "role/list";
-		
+
 	}
 	@RequiresPermissions("role:update")
-	@RequestMapping(value="/update",method=RequestMethod.POST)	
+	@RequestMapping(value="/update",method=RequestMethod.POST)
 	public String updateRole(Model model,Role role){
 		roleService.update(role);
 		Page<Role> rolePage=roleService.findAll(buildPageRequest(1));
 		model.addAttribute("roles", rolePage.getContent());
 		model.addAttribute("page", rolePage);
 		return "role/list";
-		
+
 	}
 	@RequiresPermissions("role:update")
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	public String prepareUpdateRole(Model model,@PathVariable("id") Long id){
 		model.addAttribute("role", roleService.findOne(id));
 		return "role/edit";
-		
+
 	}
 	@RequiresPermissions("role:view")
 	@RequestMapping(value="/detail/{id}",method=RequestMethod.GET)
 	public String findRole(Model model,@PathVariable("id") Long id){
 		model.addAttribute("role", roleService.findOne(id));
 		return "role/detail";
-		
+
 	}
 	/**
-	 * 
+	 *
 	 * @param model return availableRoles and role
 	 * @param id
-	 * @return 
+	 * @return
 	 */
 	@RequiresPermissions("role:bind")
 	@RequestMapping(value="/prepareBind/{id}",method=RequestMethod.GET)
 	public String prepareBind(Model model,@PathVariable("id") Long id){
-	
+
 		Role role=roleService.findOne(id);
 		model.addAttribute("role", role);
 		List<Resource> resources=resourceService.findAll();
 		model.addAttribute("availableResources",resources);
 		return "role/bind";
-		
+
 	}
 	@RequiresPermissions("role:bind")
 	@ResponseBody
@@ -145,8 +145,8 @@ public class RoleController extends BaseController{
 				unCheckedResources.remove(res);
 		}
 		return TreeUtils.fomatResourceToTree(unCheckedResources,checkedResources);
-	
-		
+
+
 	}
 	@RequiresPermissions("role:bind")
 	@RequestMapping(value="/bind",method=RequestMethod.POST)
@@ -154,14 +154,14 @@ public class RoleController extends BaseController{
 		roleService.clearAllRoleAndResourceConnection(roleId);
 		if(resourceIds!=null){
 			roleService.connectRoleAndResource(roleId,resourceIds);
-		}				
+		}
 		Page<Role> rolePage=roleService.findAll(buildPageRequest(1));
 		model.addAttribute("roles", rolePage.getContent());
 		model.addAttribute("page", rolePage);
 		return "role/list";
-		
+
 	}
-	
+
 
 	public void setRoleService(RoleService roleService) {
 		this.roleService = roleService;
@@ -171,6 +171,6 @@ public class RoleController extends BaseController{
 	public void setResourceService(ResourceService resourceService) {
 		this.resourceService = resourceService;
 	}
-	
-	
+
+
 }

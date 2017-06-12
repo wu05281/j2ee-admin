@@ -15,68 +15,75 @@ import javax.persistence.Table;
 import com.vino.scaffold.entity.base.BaseEntity;
 
 @Entity
-@Table(name="t_role")
+@Table(name = "t_role")
 public class Role extends BaseEntity<Long> {
-	/*@Column(name="mark",length=100)
-	private String mark;//½ÇÉ«±êÊ¶£¬ÔÚdao²ã×öÎ¨Ò»Ô¼Êø
-*/	@Column(name="name",length=100)
-	private String name;
-	@Column(name="description",length=200)
-	private String description;
-	@Column(name="available")
-	private Boolean available=Boolean.TRUE;
-	@ManyToMany(targetEntity=Resource.class)
-	@JoinTable(name="t_role_resource",joinColumns=@JoinColumn(name="role_id"),inverseJoinColumns=@JoinColumn(name="resource_id"))
-	private Set<Resource> resources=new HashSet<Resource>();
-	@ManyToMany(targetEntity=User.class,mappedBy="roles")//Ë«Ïò¹ØÏµµÄ½ÓÊÕ¶Ë£¬mappedByÖ¸µÄÊÇ¹ØÁª¶ÔÏóÖĞµÄÄ³¸öÊôĞÔ
-	private Set<User> users=new HashSet<User>();
-	
-	
-	public Role() {
-	}
-	
-	public Role(String mark, String name) {
-		//this.mark = mark;
-		this.name = name;
-	}
+    /*@Column(name="mark",length=100)
+    private String mark;//è§’è‰²æ ‡è¯†ï¼Œåœ¨daoå±‚åšå”¯ä¸€çº¦æŸ
+*/
+    @Column(name = "name", length = 100)
+    private String name;
+    @Column(name = "description", length = 200)
+    private String description;
+    @Column(name = "available")
+    private Boolean available = Boolean.TRUE;
+    @ManyToMany(targetEntity = Resource.class)
+    @JoinTable(name = "t_role_resource", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "resource_id"))
+    private Set<Resource> resources = new HashSet<Resource>();
+    @ManyToMany(targetEntity = User.class, mappedBy = "roles")//åŒå‘å…³ç³»çš„æ¥æ”¶ç«¯ï¼ŒmappedByæŒ‡çš„æ˜¯å…³è”å¯¹è±¡ä¸­çš„æŸä¸ªå±æ€§
+    private Set<User> users = new HashSet<User>();
 
-/*	public String getMark() {
-		return mark;
-	}
-	public void setMark(String mark) {
-		this.mark = mark;
-	}*/
-	public Set<User> getUsers() {
-		return users;
-	}
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-	public Set<Resource> getResources() {
-		return resources;
-	}
-	public void setResources(Set<Resource> resources) {
-		this.resources = resources;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public Boolean getAvailable() {
-		return available;
-	}
-	public void setAvailable(Boolean available) {
-		this.available = available;
-	}
-	
-	
-	
+
+    public Role() {
+    }
+
+    public Role(String mark, String name) {
+        //this.mark = mark;
+        this.name = name;
+    }
+
+    /*	public String getMark() {
+            return mark;
+        }
+        public void setMark(String mark) {
+            this.mark = mark;
+        }*/
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    public Set<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(Set<Resource> resources) {
+        this.resources = resources;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
 }

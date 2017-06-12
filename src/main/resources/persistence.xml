@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/persistence_2_1.xsd"  version="2.1">
+<persistence xmlns="http://java.sun.com/xml/ns/persistence">
 	<persistence-unit name="userPU" transaction-type="RESOURCE_LOCAL"><!-- JTA会自动提交回滚，RESOURCE_LOCAL则要手动  --><!-- web项目的时候设置为JTA -->
         <!--jpa的提供者-->
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<properties>
             <!--声明数据库连接的驱动-->
 			<property name="hibernate.connection.driver_class" value="${db.driver}"/>

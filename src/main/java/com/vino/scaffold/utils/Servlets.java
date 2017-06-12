@@ -13,9 +13,9 @@ import org.apache.commons.lang3.Validate;
 
 public class Servlets {
 	/**
-	 * 取得带相同前缀的Request Parameters, copy from spring WebUtils.
-	 * 
-	 * 返回的结果的Parameter名已去除前缀.
+	 * 鍙栧緱甯︾浉鍚屽墠缂�鐨凴equest Parameters, copy from spring WebUtils.
+	 *
+	 * 杩斿洖鐨勭粨鏋滅殑Parameter鍚嶅凡鍘婚櫎鍓嶇紑.
 	 */
 	public static Map<String, Object> getParametersStartingWith(ServletRequest request, String prefix) {
 		Validate.notNull(request, "Request must not be null");
@@ -42,8 +42,8 @@ public class Servlets {
 	}
 
 	/**
-	 * 组合Parameters生成Query String的Parameter部分, 并在paramter name上加上prefix.
-	 * 
+	 * 缁勫悎Parameters鐢熸垚Query String鐨凱arameter閮ㄥ垎, 骞跺湪paramter name涓婂姞涓妏refix.
+	 *
 	 * @see #getParametersStartingWith
 	 */
 	public static String encodeParameterStringWithPrefix(Map<String, Object> params, String prefix) {

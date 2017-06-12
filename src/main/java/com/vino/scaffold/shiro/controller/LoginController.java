@@ -18,29 +18,28 @@ import com.vino.scaffold.entity.Constants;
 
 @Controller
 public class LoginController extends BaseController{
-	//²»ÄÜÖØ¸´µÇÂ¼
-	
+
 	  @RequestMapping(value = "/login")
-	    public String showLoginForm(HttpServletRequest req, Model model) {
-	
-	        String exceptionClassName = (String)req.getAttribute("shiroLoginFailure");
-	      
-	        String error = null;
-	        if(UnknownAccountException.class.getName().equals(exceptionClassName)) {
-	            error = "ÓÃ»§Ãû/ÃÜÂë´íÎó";
-	        } else if(IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
-	            error = "ÓÃ»§Ãû/ÃÜÂë´íÎó";
-	        }else if(LockedAccountException.class.getName().equals(exceptionClassName)){
-	        	error = "ÕË»§±»Ëø¶¨£¬ÇëÁªÏµ¹ÜÀíÔ±";
-	        	 	
-	        }else if(ExcessiveAttemptsException.class.getName().equals(exceptionClassName)) {
-	            error = "ÃÜÂëÊäÈë´íÎó³¬¹ı"+Constants.PASSWORD_RETRY_MAX+"´Î,ÇëµÈ´ıÒ»Ğ¡Ê±ºóÖØĞÂ³¢ÊÔ";
-	        }else if(exceptionClassName != null) {
-	            error = "ÆäËû´íÎó£º" + exceptionClassName;
-	        }
-	        model.addAttribute("loginError", error);
-	        return "login";
-	    }
+	  public String showLoginForm(HttpServletRequest req, Model model) {
+
+		  String exceptionClassName = (String)req.getAttribute("shiroLoginFailure");
+
+		  String error = null;
+		  if(UnknownAccountException.class.getName().equals(exceptionClassName)) {
+			  error = "ç”¨æˆ·å/å¯†ç é”™è¯¯";
+		  } else if(IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
+			  error = "ç”¨æˆ·å/å¯†ç é”™è¯¯";
+		  }else if(LockedAccountException.class.getName().equals(exceptionClassName)){
+			  error = "è´¦æˆ·è¢«é”å®šï¼Œè¯·è”ç³»ç®¡ç†å‘˜";
+
+		  }else if(ExcessiveAttemptsException.class.getName().equals(exceptionClassName)) {
+			  error = "å¯†ç è¾“å…¥é”™è¯¯è¶…è¿‡"+Constants.PASSWORD_RETRY_MAX+"æ¬¡,è¯·ç­‰å¾…ä¸€å°æ—¶åé‡æ–°å°è¯•";
+		  }else if(exceptionClassName != null) {
+			  error = "å…¶ä»–é”™è¯¯ï¼š" + exceptionClassName;
+		  }
+		  model.addAttribute("loginError", error);
+		  return "login";
+	  }
 	
 
 }

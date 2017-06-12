@@ -19,11 +19,10 @@ import com.vino.scaffold.shiro.exception.UserDuplicateException;
 @Transactional
 public abstract class AbstractBaseServiceImpl<T extends BaseEntity<PK>,PK extends Serializable> {
 	@Autowired
-	protected BaseRepository<T, PK> baseRepository;//将子类注入
+	protected BaseRepository<T, PK> baseRepository;
 	@Autowired  
 	private HttpSession session; 
 	/**
-	 * 获取当前用户
 	 * @return
 	 */
 	public User getCurrentUser(){

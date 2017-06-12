@@ -21,15 +21,15 @@ public class UserRealm extends AuthorizingRealm {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-    
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = (String)principals.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setRoles(userService.findAllRoleNamesByUsername(username));//²éÑ¯ÓÃ»§µÄ½ÇÉ«·ÅÈëÆ¾Ö¤ÖĞ
-        authorizationInfo.setStringPermissions(userService.findAllPermissionsByUsername(username));//²éÑ¯ÓÃ»§È¨ÏŞ·ÅÈëÆ¾Ö¤ÖĞ
+        authorizationInfo.setRoles(userService.findAllRoleNamesByUsername(username));//æŸ¥è¯¢ç”¨æˆ·çš„è§’è‰²æ”¾å…¥å‡­è¯ä¸­
+        authorizationInfo.setStringPermissions(userService.findAllPermissionsByUsername(username));//æŸ¥è¯¢ç”¨æˆ·æƒé™æ”¾å…¥å‡­è¯ä¸­
 
-		
+
         return authorizationInfo;
     }
 
@@ -37,25 +37,25 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String username = (String)token.getPrincipal();
         User user = userService.findByUsername(username);
-        //¸üĞÂµÇÂ¼Ê±¼ä
+        //æ›´æ–°ç™»å½•æ—¶é—´
         User curUser=userService.findByUsername(username);
         if(curUser.getLoginTime()!=null){
-        	curUser.setLastLoginTime(curUser.getLoginTime());
+            curUser.setLastLoginTime(curUser.getLoginTime());
         }
-		curUser.setLoginTime(new Date());		
-		userService.update(curUser);
-		
-        System.out.println("doGetAuthenticationInfo µÇÂ¼");
+        curUser.setLoginTime(new Date());
+        userService.update(curUser);
+
+        System.out.println("doGetAuthenticationInfo ç™»å½•");
         if(user == null) {
-            throw new UnknownAccountException();//Ã»ÕÒµ½ÕÊºÅ
+            throw new UnknownAccountException();//æ²¡æ‰¾åˆ°å¸å·
         }
         if(Boolean.TRUE.equals(user.getLocked())) {
-            throw new LockedAccountException(); //ÕÊºÅËø¶¨
+            throw new LockedAccountException(); //å¸å·é”å®š
         }
-        //½»¸øAuthenticatingRealmÊ¹ÓÃCredentialsMatcher½øĞĞÃÜÂëÆ¥Åä£¬Èç¹û¾õµÃÈË¼ÒµÄ²»ºÃ¿ÉÒÔ×Ô¶¨ÒåÊµÏÖ
+        //äº¤ç»™AuthenticatingRealmä½¿ç”¨CredentialsMatcherè¿›è¡Œå¯†ç åŒ¹é…ï¼Œå¦‚æœè§‰å¾—äººå®¶çš„ä¸å¥½å¯ä»¥è‡ªå®šä¹‰å®ç°
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                user.getUsername(), //ÓÃ»§Ãû
-                user.getPassword(), //ÃÜÂë
+                user.getUsername(), //ç”¨æˆ·å
+                user.getPassword(), //å¯†ç 
                 ByteSource.Util.bytes(user.getSalt()),//salt=username+salt
                 getName()  //realm name
         );

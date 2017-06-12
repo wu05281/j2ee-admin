@@ -19,32 +19,32 @@ import org.springframework.data.domain.Pageable;
 import com.vino.scaffold.shiro.entity.User;
 
 /**
- * criteriaÑ§Ï°ÊÓÆµ  http://www.jikexueyuan.com/course/1449.html
+ * criteriaå­¦ä¹ è§†é¢‘  http://www.jikexueyuan.com/course/1449.html
  * http://blog.csdn.net/dracotianlong/article/details/28445725
- * spring data»á×Ô¶¯Ñ¡Ôñ¸ÃÊµÏÖÀà×÷ÎªUserRepositoryµÄ²¹³ä
+ * spring dataä¼šè‡ªåŠ¨é€‰æ‹©è¯¥å®ç°ç±»ä½œä¸ºUserRepositoryçš„è¡¥å……
  * @author Joker
  *
  */
 public class UserRepositoryImpl {
 	@PersistenceContext
 	private EntityManager em;
-/**
- * 
- * ·ÏÆú
- * @param user
- * @param pageable
- * @return
- */
+	/**
+	 *
+	 * åºŸå¼ƒ
+	 * @param user
+	 * @param pageable
+	 * @return
+	 */
 	public Page<User> getUsersByCondition(User user,Pageable pageable){
 		System.out.println(user);
 		CriteriaBuilder cb=em.getCriteriaBuilder();
 		CriteriaQuery<User> cq=cb.createQuery(User.class);
 		Root<User> root=cq.from(User.class);
 		cq.select(root);
-		//Ê¹ÓÃlikeµÄÊ±ºò¿ÉÒÔ²»ÓÃÅĞ¶ÏÊÇ·ñÓĞ¸Ã²ÎÊı´«À´£¬ÒòÎªlike %% ¾ÍµÈÓÚÃ»ÓĞÕâ¸öÏŞÖÆÌõ¼ş
+		//ä½¿ç”¨likeçš„æ—¶å€™å¯ä»¥ä¸ç”¨åˆ¤æ–­æ˜¯å¦æœ‰è¯¥å‚æ•°ä¼ æ¥ï¼Œå› ä¸ºlike %% å°±ç­‰äºæ²¡æœ‰è¿™ä¸ªé™åˆ¶æ¡ä»¶
 		Predicate condition1=cb.like(root.get("username").as(String.class),cb.parameter(String.class, "username"));
 		Predicate condition2=cb.like(root.get("userAlias").as(String.class),cb.parameter(String.class, "userAlias"));
-		//Predicate condition3=cb.equal(root.get("createTime").as(Date.class),cb.parameter(String.class, "createTime"));	
+		//Predicate condition3=cb.equal(root.get("createTime").as(Date.class),cb.parameter(String.class, "createTime"));
 		cq.where(condition1,condition2);
 		cb.and(condition1,condition2);
 		TypedQuery<User> query=em.createQuery(cq);
@@ -62,5 +62,5 @@ public class UserRepositoryImpl {
 	public void setEm(EntityManager em) {
 		this.em = em;
 	}
-	
+
 }

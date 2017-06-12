@@ -18,18 +18,18 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter{
 	private UserService userService;
 	@Override
 	protected boolean onLoginSuccess(AuthenticationToken token,
-			Subject subject, ServletRequest request, ServletResponse response)
+									 Subject subject, ServletRequest request, ServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+
 		User curUser=userService.findByUsername((String)subject.getPrincipal());
-		//ÉèÖÃµÇÂ¼Ê±¼äºÍÉÏ´ÎµÇÂ¼Ê±¼ä
-		 if(curUser.getLoginTime()!=null){
-		        curUser.setLastLoginTime(curUser.getLoginTime());
-		 }
-		curUser.setLoginTime(new Date());	
+		//è®¾ç½®ç™»å½•æ—¶é—´å’Œä¸Šæ¬¡ç™»å½•æ—¶é—´
+		if(curUser.getLoginTime()!=null){
+			curUser.setLastLoginTime(curUser.getLoginTime());
+		}
+		curUser.setLoginTime(new Date());
 		userService.update(curUser);
-		System.out.println("Ö´ÐÐmyfilter");
+		System.out.println("æ‰§è¡Œmyfilter");
 		return super.onLoginSuccess(token, subject, request, response);
 	}
 	@Override
@@ -37,6 +37,6 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter{
 		// TODO Auto-generated method stub
 		return super.executeLogin(arg0, arg1);
 	}
-	
+
 
 }

@@ -20,30 +20,30 @@ public class SidebarRankTag extends SimpleTagSupport{
 	private User currentUser;
 	@Override
 	public void doTag() throws JspException, IOException {
-		List<Resource> menuResources=new ArrayList<Resource>();	
+		List<Resource> menuResources=new ArrayList<Resource>();
 		for(Role role:currentUser.getRoles()){
-			Set<Resource> resources=role.getResources();			
+			Set<Resource> resources=role.getResources();
 			for(Resource res : resources){
 				if(res!=null&&res.getType().equals("menu")){
 					menuResources.add(res);
 				}
-			}			
-		}		
+			}
+		}
 		Collections.sort(menuResources, new Comparator<Resource>() {
 			@Override
 			public int compare(Resource o1, Resource o2) {
-				//o1>o2Ôò·µ»ØÕıÊıO1=O2·µ»Ø0£¬Ğ¡ÓÚ·µ»Ø¸ºÊı
+				//o1>o2åˆ™è¿”å›æ­£æ•°O1=O2è¿”å›0ï¼Œå°äºè¿”å›è´Ÿæ•°
 				return o1.getPriority().compareTo(o2.getPriority());
 			}
 		});
-		
+
 		JspWriter out=getJspContext().getOut();
 		for(Resource res : menuResources){
 			if(res.getUrl().equals("druid"))
-				out.println("<li><a  href='"+res.getUrl()+"' target='_blank'><i class='fa fa-laptop'></i><span>"+res.getName()+"</span></a></li>");//Ö±½ÓÌø×ªµ½¼à¿ØÒ³Ãæ
+				out.println("<li><a  href='"+res.getUrl()+"' target='_blank'><i class='fa fa-laptop'></i><span>"+res.getName()+"</span></a></li>");//ç›´æ¥è·³è½¬åˆ°ç›‘æ§é¡µé¢
 			else
-				out.println("<li><a class='sidebarMenuHref' href='"+res.getUrl()+"'><i class='fa  fa-circle-o'></i><span>"+res.getName()+"</span></a></li>");	
-		
+				out.println("<li><a class='sidebarMenuHref' href='"+res.getUrl()+"'><i class='fa  fa-circle-o'></i><span>"+res.getName()+"</span></a></li>");
+
 		}
 	}
 	public User getCurrentUser() {
@@ -52,6 +52,6 @@ public class SidebarRankTag extends SimpleTagSupport{
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
 	}
-	
+
 
 }

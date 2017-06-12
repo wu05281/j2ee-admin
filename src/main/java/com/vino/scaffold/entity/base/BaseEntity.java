@@ -12,7 +12,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-//@MappedSuperclass 用在父类上面。当这个类肯定是父类时，加此标注。如果改成@Entity，则继承后，多个类继承，只会生成一个表，而不是多个继承，生成多个表
 @MappedSuperclass
 public abstract class BaseEntity<PK extends Serializable> {
 	@Id
@@ -80,7 +79,6 @@ public abstract class BaseEntity<PK extends Serializable> {
 
 	        return hashCode;
 	    }
-	    //通过反射实现toString apache common lang包里
 		@Override
 		public String toString() {
 			return ReflectionToStringBuilder.toString(this);

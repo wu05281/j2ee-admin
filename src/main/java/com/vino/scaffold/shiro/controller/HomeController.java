@@ -42,11 +42,11 @@ public class HomeController extends BaseController{
 		Session session=curUser.getSession();	
 		String username=(String) curUser.getPrincipal();
 		User currentUser=userService.findByUsername(username);
-		session.setAttribute(Constants.CURRENT_USER, currentUser);//将当前用户放入session
+		session.setAttribute(Constants.CURRENT_USER, currentUser);
 		session.setAttribute(Constants.CURRENT_USERNAME, username);
-		List<Resource> resources=resourceService.findAll();//用于前端页面生成侧边栏
+		List<Resource> resources=resourceService.findAll();
 		request.setAttribute("resources", resources);
-		if (currentUser.getLoginTime() != null) { //更新登陆时间
+		if (currentUser.getLoginTime() != null) {
 			currentUser.setLastLoginTime(currentUser.getLoginTime());
 		}
 		currentUser.setLoginTime(new Date());

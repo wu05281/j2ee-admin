@@ -8,7 +8,7 @@ import com.vino.scaffold.shiro.entity.Resource;
 import com.vino.scaffold.shiro.entity.Role;
 import com.vino.scaffold.shiro.entity.User;
 /**
- * ½«ÊµÌåÀà×ª»»³ÉztreeÏÔÊ¾ĞèÒªµÄĞÅÏ¢
+ * å°†å®ä½“ç±»è½¬æ¢æˆztreeæ˜¾ç¤ºéœ€è¦çš„ä¿¡æ¯
  * @author Joker
  *
  */
@@ -31,7 +31,7 @@ public class TreeUtils {
 			tree.setChecked(false);
 		return tree;
 	}
-	
+
 	public static Tree formatUserToTree(User user){
 		Tree tree=new Tree();
 		tree.setId(user.getId());
@@ -40,7 +40,7 @@ public class TreeUtils {
 		return tree;
 	}
 	/**
-	 * ½«resource×ª»»³ÉÏàÓ¦µÄtree,²¢ÇÒ·µ»ØÊÇ·ñchecked
+	 * å°†resourceè½¬æ¢æˆç›¸åº”çš„tree,å¹¶ä¸”è¿”å›æ˜¯å¦checked
 	 * @param uncheckedResources
 	 * @param checkedResources
 	 * @return
@@ -57,18 +57,18 @@ public class TreeUtils {
 		}
 		return trees;
 	}
-	
+
 	public static List<Tree> fomatResourceToTree(List<Resource> resources){
 		List<Tree> trees=new ArrayList<Tree>();
 		Tree root=new Tree();
-		root.setId((long) 0);//¸ù½ÚµãµÄidÎª0
+		root.setId((long) 0);//æ ¹èŠ‚ç‚¹çš„idä¸º0
 		root.setpId(0l);
-		root.setName("Root½Úµã");
+		root.setName("RootèŠ‚ç‚¹");
 		root.setChecked(false);
-		
+
 		trees.add(root);
 		for(Resource res:resources){
-			Tree tree=TreeUtils.formatResourceToTree(res,false);//checkboxÎŞÑ¡ÖĞ
+			Tree tree=TreeUtils.formatResourceToTree(res,false);//checkboxæ— é€‰ä¸­
 			trees.add(tree);
 		}
 		return trees;

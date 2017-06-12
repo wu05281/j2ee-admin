@@ -17,105 +17,107 @@ import javax.persistence.TemporalType;
 
 import com.vino.scaffold.entity.base.BaseEntity;
 
+
 @Entity
 @Table(name = "t_user")
 public class User extends BaseEntity<Long> {
 
-	@Column(name = "username", length = 100)
-	private String username;
-	@Column(name = "password", length = 100)
-	private String password;
-	@Column(name = "user_alias", length = 50)
-	private String userAlias;
+    @Column(name = "username", length = 100)
+    private String username;
+    @Column(name = "password", length = 100)
+    private String password;
+    @Column(name = "user_alias", length = 50)
+    private String userAlias;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "last_login_time")
-	private Date lastLoginTime;
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "login_time")
-	private Date loginTime;
-	@Column(name = "salt",length=50)
-	private String salt;
-	@Column(name = "locked")
-	private Boolean locked = Boolean.FALSE;
-	
-	@ManyToMany(targetEntity=Role.class,fetch=FetchType.EAGER)//多对多
-	@JoinTable(name="t_user_role",joinColumns=@JoinColumn(name="user_id"),inverseJoinColumns=@JoinColumn(name="role_id"))//生成中间表
-	private Set<Role> roles=new HashSet<Role>();
-	
-	public User(){
-		
-	}
-	public User(String username,String password,String alias){
-		this.username=username;
-		this.password=password;
-		this.userAlias=alias;
-	}
-	
-	public Set<Role> getRoles() {
-		return roles;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_login_time")
+    private Date lastLoginTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "login_time")
+    private Date loginTime;
+    @Column(name = "salt", length = 50)
+    private String salt;
+    @Column(name = "locked")
+    private Boolean locked = Boolean.FALSE;
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
+    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)//露脿露脭露脿
+    @JoinTable(name = "t_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+//脡煤鲁脡脰脨录盲卤铆
+    private Set<Role> roles = new HashSet<Role>();
 
-	public String getUsername() {
-		return username;
-	}
+    public User() {
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public User(String username, String password, String alias) {
+        this.username = username;
+        this.password = password;
+        this.userAlias = alias;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-	public String getUserAlias() {
-		return userAlias;
-	}
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
-	public void setUserAlias(String userAlias) {
-		this.userAlias = userAlias;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public Date getLastLoginTime() {
-		return lastLoginTime;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setLastLoginTime(Date lastLoginTime) {
-		this.lastLoginTime = lastLoginTime;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public Date getLoginTime() {
-		return loginTime;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setLoginTime(Date loginTime) {
-		this.loginTime = loginTime;
-	}
+    public String getUserAlias() {
+        return userAlias;
+    }
 
-	public String getSalt() {
-		return salt;
-	}
+    public void setUserAlias(String userAlias) {
+        this.userAlias = userAlias;
+    }
 
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
 
-	public Boolean getLocked() {
-		return locked;
-	}
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
 
-	public void setLocked(Boolean locked) {
-		this.locked = locked;
-	}
+    public Date getLoginTime() {
+        return loginTime;
+    }
 
-	
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
+    }
+
 
 }

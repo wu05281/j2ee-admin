@@ -8,14 +8,14 @@ public class RoleRepositoryImpl {
 	@PersistenceContext
 	private EntityManager em;
 	/**
-	 * 删除关联表中的对应roleid的行
+	 * 鍒犻櫎鍏宠仈琛ㄤ腑鐨勫搴攔oleid鐨勮
 	 * @param roleIds
 	 */
 	public void deleteAssociateById(Long... roleIds){
 		for(Long roleId:roleIds){
-		Query query=em.createNativeQuery("delete from t_user_role where role_id=?");
-		query.setParameter(1,roleId);
-		query.executeUpdate();
+			Query query=em.createNativeQuery("delete from t_user_role where role_id=?");
+			query.setParameter(1,roleId);
+			query.executeUpdate();
 		}
 	}
 	public EntityManager getEm() {
@@ -24,5 +24,5 @@ public class RoleRepositoryImpl {
 	public void setEm(EntityManager em) {
 		this.em = em;
 	}
-	
+
 }
